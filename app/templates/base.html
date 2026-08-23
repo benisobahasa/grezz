@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}{{ app_name }} — {{ tagline }}{% endblock %}</title>
+  <meta name="description" content="Grezz checks how ready your website is to be found and cited by AI search engines like ChatGPT, Gemini, and Perplexity." />
+  <link rel="icon" type="image/png" href="/static/img/grezz-icon.png" />
+  <link rel="apple-touch-icon" href="/static/img/grezz-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link rel="stylesheet" href="/static/css/style.css" />
+
+  {% if ads_enabled and adsense_client_id %}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ adsense_client_id }}" crossorigin="anonymous"></script>
+  {% endif %}
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="bg-grid"></div>
+  <canvas id="particle-canvas"></canvas>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div id="cursor-glow"></div>
+
+  <nav class="navbar">
+    <div class="max-w-6xl mx-auto px-6 py-3">
+      <div class="flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2">
+          <img src="/static/img/grezz-logo.png" alt="Grezz" class="h-9 w-auto logo-float" />
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-[color:var(--text-dim)]">
+          <a href="/#analyze" class="hover:text-white transition">Analyze</a>
+          <a href="/#how-it-works" class="hover:text-white transition">How It Works</a>
+          <a href="/#faq" class="hover:text-white transition">FAQ</a>
+          <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+        </div>
+        <div class="hidden md:block">
+          <a href="/#analyze" class="btn-neon text-sm">Try Free</a>
+        </div>
+        <button id="mobile-menu-btn" onclick="Grezz.toggleMobileMenu()" class="md:hidden text-white p-2" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="mobile-menu md:hidden">
+        <div class="flex flex-col gap-4 pt-4 pb-2 text-sm text-[color:var(--text-dim)]">
+          <a href="/#analyze" class="hover:text-white transition">Analyze</a>
+          <a href="/#how-it-works" class="hover:text-white transition">How It Works</a>
+          <a href="/#faq" class="hover:text-white transition">FAQ</a>
+          <a href="/#pricing" class="hover:text-white transition">Pricing</a>
+          <a href="/#analyze" class="btn-neon text-sm text-center">Try Free</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% from "partials/ad_slot.html" import render as ad_render %}
+  <div class="ad-slot-wrap max-w-6xl mx-auto px-6 pt-4">
+    {{ ad_render("Header Banner", ad_slot_header, "min-height:90px;") }}
+  </div>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="max-w-6xl mx-auto px-6 py-10 mt-16 border-t border-white/5">
+    {{ ad_render("Footer Banner", ad_slot_footer, "min-height:100px; margin-bottom:2rem;") }}
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[color:var(--text-dim)]">
+      <div class="flex items-center gap-2">
+        <img src="/static/img/grezz-icon.png" alt="" class="h-5 w-5" />
+        <span>Grezz © 2026 — AI Search Readiness, Decoded.</span>
+      </div>
+      <div class="flex gap-6">
+        <a href="/privacy" class="hover:text-white transition">Privacy</a>
+        <a href="/terms" class="hover:text-white transition">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="cookie-consent" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm glass p-5 z-50 hidden">
+    <p class="text-xs text-[color:var(--text-dim)] mb-3 leading-relaxed">
+      We use cookies for analytics and to show relevant ads. By continuing to use Grezz, you agree
+      to our <a href="/privacy" class="text-[color:var(--neon-teal)] underline">Privacy Policy</a>.
+    </p>
+    <div class="flex gap-2 justify-end">
+      <button onclick="Grezz.dismissCookieConsent()" class="text-xs px-3 py-1.5 rounded-lg border border-white/15 text-[color:var(--text-dim)] hover:text-white transition">Dismiss</button>
+      <button onclick="Grezz.acceptCookieConsent()" class="btn-neon text-xs px-4 py-1.5">Got It</button>
+    </div>
+  </div>
+
+  <div id="sticky-ad-bar" class="fixed bottom-0 left-0 right-0 z-40 hidden">
+    <div class="max-w-3xl mx-auto px-4 pb-3">
+      <div class="relative glass p-2 flex items-center gap-3">
+        {{ ad_render("Sticky Bar", ad_slot_sticky, "min-height:50px; flex:1;") }}
+        <button onclick="Grezz.dismissStickyAd()" aria-label="Close ad" class="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[color:var(--text-dim)] hover:text-white hover:bg-white/10 transition">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/main.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-16">
+  <h1 class="text-3xl font-bold mb-2 reveal">Privacy Policy</h1>
+  <p class="text-sm text-[color:var(--text-dim)] mb-10 reveal">Last updated: 2026</p>
+
+  <div class="glass p-6 md:p-8 space-y-6 text-sm leading-relaxed text-[color:var(--text-dim)] reveal reveal-delay-1">
+    <div>
+      <h2 class="text-white font-semibold mb-2">1. What Data We Process</h2>
+      <p>
+        {{ app_name }} analyzes the URL you submit to generate a GEO Score. We process: (a) the
+        URL you submit, (b) the public content of that page (HTML, text, metadata), and (c) any
+        question you ask through the "Ask Grezz AI" feature. We don't request or store personal
+        data (name, email, etc) unless it happens to appear on the page you analyzed.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">2. Data Storage</h2>
+      <p>
+        Analysis results are cached temporarily on our server (at most a few hours) to speed up
+        repeat scans of the same URL, then automatically deleted. We don't store a permanent
+        history of your analyses unless a future subscription/account feature is introduced.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">3. Third Parties</h2>
+      <p>
+        To generate AI-powered summaries and recommendations, the content of the page you analyze
+        is sent to the Google Gemini API for processing. Please review Google's own privacy policy
+        regarding data processing by the Gemini API.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">4. Ads & Cookies</h2>
+      <p>
+        We display ads through Google AdSense to help fund this free service. AdSense may use
+        cookies to show more relevant ads based on your visits to this and other sites. You can
+        opt out of personalized ads via
+        <a href="https://adssettings.google.com" target="_blank" rel="noopener" class="text-[color:var(--neon-teal)]">Google Ads Settings</a>.
+        A cookie consent banner is shown on your first visit.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">5. Security</h2>
+      <p>
+        We enforce URL validation to prevent misuse of the system (e.g. targeting internal network
+        addresses), request rate limiting, and standard security headers on all site responses.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">6. Your Rights</h2>
+      <p>
+        Since we don't permanently store personal data, there's no account data to delete under
+        free-tier usage. If a subscription/account tier becomes available in the future, you'll be
+        able to request deletion of your account data at any time.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">7. Contact</h2>
+      <p>Privacy-related questions can be sent via our Contact page.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

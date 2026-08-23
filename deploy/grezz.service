@@ -1,0 +1,25 @@
+# systemd service untuk menjalankan Grezz terus-menerus di VPS.
+# Copy file ini ke /etc/systemd/system/grezz.service lalu sesuaikan path & user.
+
+[Unit]
+Description=Grezz - GEO Analyzer (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/grezz-app
+EnvironmentFile=/var/www/grezz-app/.env
+ExecStart=/var/www/grezz-app/venv/bin/gunicorn app.main:app \
+    --workers 2 \
+    --worker-class uvicorn.workers.UvicornWorker \
+    --bind 127.0.0.1:8001 \
+    --forwarded-allow-ips="*" \
+    --access-logfile /var/log/grezz/access.log \
+    --error-logfile /var/log/grezz/error.log
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

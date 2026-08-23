@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+
+# Environment secrets — never commit this
+.env
+
+# OS/editor
+.DS_Store
+.vscode/
+*.swp
+
+# Logs
+*.log

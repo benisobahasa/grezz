@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Terms of Service — {{ app_name }}{% endblock %}
+{% block content %}
+<section class="max-w-3xl mx-auto px-6 py-16">
+  <h1 class="text-3xl font-bold mb-2 reveal">Terms of Service</h1>
+  <p class="text-sm text-[color:var(--text-dim)] mb-10 reveal">Last updated: 2026</p>
+
+  <div class="glass p-6 md:p-8 space-y-6 text-sm leading-relaxed text-[color:var(--text-dim)] reveal reveal-delay-1">
+    <div>
+      <h2 class="text-white font-semibold mb-2">1. Using the Service</h2>
+      <p>
+        {{ app_name }} provides automated analysis of a website's readiness for AI search engines
+        (a "GEO Score"). The service is provided "as is" without any guarantee that the analysis
+        is 100% accurate or complete.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">2. Acceptable Use</h2>
+      <p>
+        You agree not to use {{ app_name }} to: analyze URLs pointing to another party's internal
+        or private systems without authorization, flood the service with automated requests beyond
+        reasonable rate limits, or any other unlawful purpose. We reserve the right to restrict
+        access if misuse is detected.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">3. Third-Party Content</h2>
+      <p>
+        AI-generated recommendations and summaries are suggestions, not a guarantee of ranking or
+        traffic performance. Applying any recommendation is entirely your own decision and
+        responsibility.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">4. Advertising</h2>
+      <p>
+        This free service is partly funded by third-party ads (Google AdSense). We're not
+        responsible for the content of ads served by that ad network.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">5. Changes to the Service</h2>
+      <p>
+        We may modify, suspend, or discontinue any feature of the service at any time, with or
+        without prior notice.
+      </p>
+    </div>
+    <div>
+      <h2 class="text-white font-semibold mb-2">6. Limitation of Liability</h2>
+      <p>
+        {{ app_name }} is not liable for any indirect damages arising from your use or inability
+        to use this service.
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

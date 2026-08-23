@@ -1,0 +1,10 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+deploy/
+passenger_wsgi.py
+Procfile
+runtime.txt
+.git/

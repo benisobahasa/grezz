@@ -1,0 +1,172 @@
+{% from "partials/ad_slot.html" import render as ad_render %}
+
+<div class="glass glass-glow p-6 md:p-8 reveal">
+  <div class="flex flex-col md:flex-row items-center gap-8">
+    <div class="relative w-52 h-52 flex-shrink-0">
+      <svg viewBox="0 0 200 200" class="w-full h-full gauge-ring">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="14" />
+        <circle
+          class="progress"
+          cx="100" cy="100" r="80" fill="none"
+          stroke="#00ffd1" stroke-width="14" stroke-linecap="round"
+          data-score="{{ score }}"
+        />
+      </svg>
+      <div class="absolute inset-0 flex flex-col items-center justify-center">
+        <span class="gauge-number">0</span>
+        <span class="text-xs text-[color:var(--text-dim)] mt-1">/ 100</span>
+      </div>
+    </div>
+
+    <div class="flex-1 text-center md:text-left">
+      <p class="text-xs uppercase tracking-widest text-[color:var(--text-dim)] mb-1">GEO Score for</p>
+      <h2 class="text-lg font-semibold break-all mb-2">{{ url }}</h2>
+      <span class="badge badge-info">{{ score_label }}</span>
+      {% if ai_summary %}
+      <p id="ai-summary-text" class="mt-4 text-sm text-[color:var(--text-dim)] leading-relaxed">{{ ai_summary }}</p>
+      <button onclick="Grezz.copySummary(this)" class="mt-2 text-xs text-[color:var(--neon-teal)] hover:underline">Copy Summary</button>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="grid sm:grid-cols-2 gap-4 mt-6 reveal reveal-delay-1">
+  {% for category, value in category_scores.items() %}
+  <div class="glass p-4 tilt-card">
+    <div class="flex justify-between text-sm mb-2">
+      <span>{{ category }}</span>
+      <span class="text-[color:var(--text-dim)]">{{ value }}/100</span>
+    </div>
+    <div class="cat-bar-track">
+      <div class="cat-bar-fill" data-value="{{ value }}"></div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% if content_excerpt %}
+<div class="mt-6 reveal reveal-delay-1">
+  <details class="faq-item glass p-5">
+    <summary class="flex items-center justify-between font-medium text-sm">
+      See How AI "Reads" Your Page
+      <svg class="faq-chevron flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </summary>
+    <p class="faq-answer text-xs text-[color:var(--text-dim)] mt-3 leading-relaxed whitespace-pre-line font-mono">{{ content_excerpt }}...</p>
+  </details>
+</div>
+{% endif %}
+
+{{ ad_render("In-Content", ad_slot_incontent, "min-height:100px; margin-top:1.5rem;") }}
+
+{% if meta_suggestion %}
+<div class="mt-8 reveal">
+  <div class="glass glass-glow p-5">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:linear-gradient(135deg,var(--neon-teal),var(--neon-purple)); color:#05060a;">AI</span>
+      <h3 class="font-semibold text-sm">Suggested Title & Meta Description Rewrite</h3>
+    </div>
+    <div class="space-y-3 text-sm">
+      <div>
+        <p class="text-xs text-[color:var(--text-dim)] mb-1">New Title</p>
+        <p class="bg-white/5 rounded-lg px-3 py-2">{{ meta_suggestion.title }}</p>
+      </div>
+      <div>
+        <p class="text-xs text-[color:var(--text-dim)] mb-1">New Meta Description</p>
+        <p class="bg-white/5 rounded-lg px-3 py-2">{{ meta_suggestion.meta_description }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if faq_suggestions %}
+<div class="mt-8 reveal">
+  <div class="glass glass-glow p-5">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:linear-gradient(135deg,var(--neon-teal),var(--neon-purple)); color:#05060a;">AI</span>
+      <h3 class="font-semibold text-sm">Suggested FAQ Content (for FAQPage schema)</h3>
+    </div>
+    <p class="text-xs text-[color:var(--text-dim)] mb-4">
+      Your page is missing FAQPage structured data — one of the strongest signals for AI search.
+      Here are AI-drafted Q&amp;A pairs based on your actual page content:
+    </p>
+    <div class="space-y-3">
+      {% for faq in faq_suggestions %}
+      <div class="bg-white/5 rounded-lg px-4 py-3">
+        <p class="text-sm font-medium mb-1">Q: {{ faq.question }}</p>
+        <p class="text-xs text-[color:var(--text-dim)]">A: {{ faq.answer }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="mt-8 reveal">
+  <h3 class="text-lg font-semibold mb-3">Issues Found ({{ issues|length }})</h3>
+  <div class="space-y-2">
+    {% for issue in issues %}
+    <div class="issue-card sev-{{ issue.severity }} glass p-4 tilt-card">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="badge badge-{{ issue.severity }}">{{ issue.severity }}</span>
+        <span class="font-medium text-sm">{{ issue.title }}</span>
+      </div>
+      <p class="text-xs text-[color:var(--text-dim)]">{{ issue.description }}</p>
+    </div>
+    {% else %}
+    <p class="text-sm text-[color:var(--text-dim)]">No major issues detected. Nice work!</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="mt-8 reveal">
+  <h3 class="text-lg font-semibold mb-3">Priority Recommendations</h3>
+  <div class="space-y-2">
+    {% for rec in recommendations %}
+    <div class="rec-card sev-{{ rec.severity }} glass p-4 tilt-card">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="badge badge-{{ rec.severity }}">{{ rec.category }}</span>
+        <span class="font-medium text-sm">{{ rec.title }}</span>
+      </div>
+      <p class="text-xs text-[color:var(--text-dim)] mb-1">{{ rec.description }}</p>
+      <p class="text-xs text-[color:var(--neon-teal)]">→ {{ rec.fix }}</p>
+    </div>
+    {% if loop.index == 3 %}
+    {{ ad_render("Native", ad_slot_native, "min-height:90px;") }}
+    {% endif %}
+    {% else %}
+    <p class="text-sm text-[color:var(--text-dim)]">No recommendations — your site is already solid.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="mt-8 mb-16 reveal">
+  <div class="glass p-5">
+    <div class="flex items-center gap-2 mb-3">
+      <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold" style="background:linear-gradient(135deg,var(--neon-teal),var(--neon-purple)); color:#05060a;">AI</span>
+      <h3 class="font-semibold text-sm">Ask Grezz AI About This Result</h3>
+    </div>
+    <div id="chat-log" class="max-h-64 overflow-y-auto mb-3 pr-1"></div>
+    <form
+      hx-post="/ask"
+      hx-target="#chat-log"
+      hx-swap="beforeend"
+      hx-indicator="#ask-spinner"
+      class="flex gap-2"
+      onsubmit="setTimeout(() => this.reset(), 10)"
+    >
+      <input type="hidden" name="url" value="{{ url }}" />
+      <input
+        type="text"
+        name="question"
+        required
+        placeholder="e.g. Why is my Structured Data score low?"
+        class="url-input flex-1 text-sm"
+      />
+      <button type="submit" class="btn-neon text-sm flex items-center gap-2">
+        <span>Ask</span>
+        <span id="ask-spinner" class="htmx-indicator spinner" style="border-top-color:#05060a;"></span>
+      </button>
+    </form>
+  </div>
+</div>
